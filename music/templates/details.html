@@ -1,0 +1,32 @@
+
+
+
+
+{% extends 'base.html' %}
+{%block body%}
+<h2>{{album.album_title}}</h2>
+
+  {% if error_message %}
+
+     <p> <strong> {{error_message}}</strong></p>
+
+  {%endif%}
+
+ <form action="{%url 'music:favorite' album.id %}" method="post">
+    {%csrf_token%}
+
+      {% for song in album.songs_set.all %}
+
+          <input type="radio" id="song{{forloop.counter}}" name="song" value="{{song.id}}" />
+          <label for="song{{forloop.counter}}">
+              {{song.song_title}}
+              {%if song.is_favorite %}
+                 <h2>this is your fav song</h2>
+              {%endif%}
+          </label>
+      {%endfor%}
+      <input type="submit" value="favorite">
+ </form>
+{% endblock%}
+
+
